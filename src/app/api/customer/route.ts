@@ -4,6 +4,29 @@ import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 
 
+export async function GET(req: Request){
+    const {searchParams} = new URL(req.url)
+    const customerEmail = searchParams.get("email")
+
+    if(!customerEmail || customerEmail === ""){
+        return NextResponse.json({error: "Customer not found"}, {status: 400})
+    }
+
+    try {
+        const customer = await prisma.customer.findFirst({
+            where:{
+                email: customerEmail
+            }
+        })
+        return NextResponse.json(customer)
+
+    } catch (error) {
+        return NextResponse.json({error: "Customer not found"}, {status: 400})
+    }
+
+    
+}
+
 export async function DELETE(req: Request){
 
     const session = await getServerSession(authOptions);
@@ -41,7 +64,6 @@ export async function DELETE(req: Request){
     }
 }
 
-
 export async function POST(req: Request){
     
     const session = await getServerSession(authOptions);
@@ -68,3 +90,4 @@ export async function POST(req: Request){
     
 
 }
+
