@@ -8,7 +8,7 @@ export function ModalTicket(){
     const {handleModalVisible, ticket} = useContext(ModalContext)
     const modalRef = useRef<HTMLDivElement | null>(null)
 
-    const handleModalClick = (e: MouseEvent<HTMLDivElement>) => {
+    const handleModalClick = (e: React.MouseEvent<HTMLDivElement>) => {
        if(modalRef.current && !modalRef.current.contains(e.target as Node)){
             handleModalVisible()
        }
